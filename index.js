@@ -69,81 +69,81 @@ client.connect(err => {
 
     reviewCollection.insertOne({ name, description, city, image })
       .then(result => {
-          res.send(result.insertedCount > 0)
+        res.send(result.insertedCount > 0)
       })
 
   })
-})
 
-app.get('/allReview', (req, res) => {
-  reviewCollection.find({})
-    .toArray((err, result) => {
-      res.json(result)
-    })
-})
+  app.get('/allReview', (req, res) => {
+    reviewCollection.find({})
+      .toArray((err, result) => {
+        res.json(result)
+      })
+  })
 
-app.post("/orderBooking", (req, res) => {
-  orderBookingCollection.insertOne(req.body)
-    .then(result => {
-      res.json(result.insertedCount > 0)
-    })
-})
-app.get('/allBooking', (req, res) => {
-  orderBookingCollection.find({})
-    .toArray((err, result) => {
-      res.json(result)
-    })
-})
+  app.post("/orderBooking", (req, res) => {
+    orderBookingCollection.insertOne(req.body)
+      .then(result => {
+        res.json(result.insertedCount > 0)
+      })
+  })
+  app.get('/allBooking', (req, res) => {
+    orderBookingCollection.find({})
+      .toArray((err, result) => {
+        res.json(result)
+      })
+  })
 
-app.get('/booking/:id', (req, res) => {
-  console.log(req.params.id)
-  serviceCollection.find({ _id: ObjectId(req.params.id) })
-    .toArray((err, result) => {
-      res.json(result[0])
-    })
-})
+  app.get('/booking/:id', (req, res) => {
+    console.log(req.params.id)
+    serviceCollection.find({ _id: ObjectId(req.params.id) })
+      .toArray((err, result) => {
+        res.json(result[0])
+      })
+  })
 
-app.delete('/deleteService/:deleteId', (req, res) => {
-  console.log('delete id', req.params.deleteId)
-  serviceCollection.deleteOne({ _id: ObjectId(req.params.deleteId) })
-    .then((err, result) => {
-      res.json(result.deletedCount > 0)
-    })
-})
+  app.delete('/deleteService/:deleteId', (req, res) => {
+    console.log('delete id', req.params.deleteId)
+    serviceCollection.deleteOne({ _id: ObjectId(req.params.deleteId) })
+      .then((err, result) => {
+        res.json(result.deletedCount > 0)
+      })
+  })
 
-app.get('/allService', (req, res) => {
-  serviceCollection.find({})
-    .toArray((err, result) => {
-      // console.log(result)
-      res.send(result)
-    })
-})
+  app.get('/allService', (req, res) => {
+    serviceCollection.find({})
+      .toArray((err, result) => {
+        // console.log(result)
+        res.send(result)
+      })
+  })
 
-app.post('/addService', (req, res) => {
-  const file = req.files.file;
-  const serviceName = req.body.serviceName;
-  const description = req.body.description;
-  const price = req.body.price;
+  app.post('/addService', (req, res) => {
+    const file = req.files.file;
+    const serviceName = req.body.serviceName;
+    const description = req.body.description;
+    const price = req.body.price;
 
-  const newImg = file.data;
-  const encImg = newImg.toString('base64')
+    const newImg = file.data;
+    const encImg = newImg.toString('base64')
 
-  var image = {
-    contentType: file.mimetype,
-    size: file.size,
-    img: Buffer.from(encImg, 'base64')
-  }
+    var image = {
+      contentType: file.mimetype,
+      size: file.size,
+      img: Buffer.from(encImg, 'base64')
+    }
 
-  serviceCollection.insertOne({ serviceName, description, price, image })
-    .then(result => {
-      res.send(result.insertedCount > 0)
-    })
+    serviceCollection.insertOne({ serviceName, description, price, image })
+      .then(result => {
+        res.send(result.insertedCount > 0)
+      })
+
+  });
 
 });
 
+  app.get('/', (req, res) => {
+    res.send('Welcome Mr.Handy Server!')
+  })
 
-app.get('/', (req, res) => {
-  res.send('Welcome Mr.Handy Server!')
-})
-
-app.listen(process.env.PORT || port)
+  app.listen(process.env.PORT || port)
